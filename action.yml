@@ -1,0 +1,5 @@
+name: PPA Release
+description: Build a debian source package and upload to PPA
+runs:
+  using: docker
+  image: Dockerfile
