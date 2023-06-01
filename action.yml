@@ -1,5 +1,17 @@
 name: PPA Release
 description: Build a debian source package and upload to PPA
+
+inputs:
+  sign-key:
+    description: Private key used to sign files
+    required: false
+  upload-key:
+    description: Private key used to upload files
+    required: false
+
 runs:
   using: docker
   image: Dockerfile
+  env:
+    SIGN_KEY: ${{ inputs.sign-key }}
+    UPLOAD_KEY: ${{ inputs.upload-key }}
