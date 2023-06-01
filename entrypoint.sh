@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo "Sign key length: $(wc -c $SIGN_KEY)"
-echo "Upload key length: $(wc -c $UPLOAD_KEY)"
+echo "Sign key length: $(echo "$INPUT_SIGN_KEY" | wc -c)"
+echo "Upload key length: $(echo "$INPUT_UPLOAD_KEY" | wc -c)"
