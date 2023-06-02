@@ -6,5 +6,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && rm -rf /var/lib/apt
 
 COPY ./entrypoint.sh /entrypoint.sh
+COPY ./cleanup.sh /cleanup.sh
 
 ENTRYPOINT [ "/entrypoint.sh" ]
