@@ -8,4 +8,4 @@ gpg --batch --pinentry-mode loopback \
 ## use key to cache passphrase
 gpg --batch --pinentry-mode loopback \
     --passphrase-file <(cat <<< $INPUT_GPG_PASS) \
-    --sign --dry-run <(echo 'test')
+    --sign --dry-run <(echo)
