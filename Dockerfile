@@ -5,7 +5,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y devscripts \
     && rm -rf /var/lib/apt
 
-COPY ./entrypoint.sh /entrypoint.sh
-COPY ./cleanup.sh /cleanup.sh
+COPY *.sh /usr/local/bin/
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "entrypoint.sh" ]
