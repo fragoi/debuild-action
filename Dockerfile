@@ -7,6 +7,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y build-essential devscripts \
     && rm -rf /var/lib/apt
 
-COPY *.sh /usr/local/bin/
+COPY bin/* /usr/local/bin/
 
 ENTRYPOINT [ "entrypoint.sh" ]
