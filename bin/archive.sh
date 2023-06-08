@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SUFFIX="tar\.gz|tar\.xz"
+
 warn() {
   echo 1>&2 "$@"
 }
@@ -20,12 +22,12 @@ origName() {
   local archive=$2
 
   ## name looks good already
-  if [[ "$archive" =~ .*".orig.".* ]]; then
+  if [[ "$archive" =~ .*".orig."($SUFFIX) ]]; then
     var="$archive"
     return 0
   fi
 
-  if ! [[ "$archive" =~ (.*)-(.*)"."(.*) ]]; then
+  if ! [[ "$archive" =~ (.*)-(.*)"."($SUFFIX) ]]; then
     warn "${archive} does not match pattern"
     return 1
   fi
@@ -45,7 +47,7 @@ dirName() {
   local -n var=$1
   local archive=$2
 
-  if ! [[ "$archive" =~ (.*)_(.*)".orig.".* ]]; then
+  if ! [[ "$archive" =~ (.*)_(.*)".orig."($SUFFIX) ]]; then
     warn "${archive} does not match pattern"
     return 1
   fi
