@@ -1,71 +1,14 @@
 #!/bin/bash -e
 
-SUFFIX="tar.gz"
-
-warn() {
-  echo 1>&2 "$@"
-}
-
-findOne() {
-  local -n var=$1
-  local suffix=$2
-  local file=($(ls -d *${suffix}))
-  if (( ${#file[@]} != 1 )); then
-    warn "Found ${#file[@]} files (${suffix})"
-    return 1
-  fi
-  var=$file
-}
-
-origName() {
-  local -n var=$1
-  local archive=$2
-
-  ## name looks good already
-  if [[ "$archive" =~ .*".orig.${SUFFIX}" ]]; then
-    var="$archive"
-    return 0
-  fi
-
-  if ! [[ "$archive" =~ (.*)-(.*)".${SUFFIX}" ]]; then
-    warn "${archive} does not match pattern"
-    return 1
-  fi
-
-  local name=${BASH_REMATCH[1]}
-  local version=${BASH_REMATCH[2]}
-
-  echo "Name: ${name}"
-  echo "Version: ${version}"
-
-  var="${name}_${version}.orig.${SUFFIX}"
-}
-
-dirName() {
-  local -n var=$1
-  local archive=$2
-
-  if ! [[ "$archive" =~ (.*)_(.*)".orig.${SUFFIX}" ]]; then
-    warn "${archive} does not match pattern"
-    return 1
-  fi
-
-  local name=${BASH_REMATCH[1]}
-  local version=${BASH_REMATCH[2]}
-
-  echo "Name: ${name}"
-  echo "Version: ${version}"
-
-  var="${name}-${version}"
-}
+. archive.sh
 
 echo "Looking for orig archive"
 
-if ! findOne orig ".orig.${SUFFIX}"; then
+if ! findOne orig ".orig.tar.gz"; then
 
   echo "Orig archive not found, looking for upstream archive"
 
-  if ! findOne archive ".${SUFFIX}"; then
+  if ! findOne archive ".tar.gz"; then
     echo "Upstream archive not found, abort."
     exit 1
   fi
