@@ -1,21 +1,11 @@
-name: PPA Release
-description: Build a debian source package and upload to PPA
+name: Debuild
+description: Build a debian source package
 
 inputs:
-  gpg_key:
-    description: Private key used to sign files
-    required: false
-  gpg_pass:
-    description: Passphrase for the GPG key
-    required: false
-  ssh_key:
-    description: Private key used to upload files
-    required: false
-  ssh_pass:
-    description: Passphrase for the SSH key
+  ppa:
+    description: PPA to use for build
     required: false
 
 runs:
   using: docker
   image: Dockerfile
-  post-entrypoint: cleanup.sh

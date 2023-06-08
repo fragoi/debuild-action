@@ -1,3 +1,3 @@
-## PPA Release
+## Debuild action
 
-Build a debian source package and upload to PPA
+Build a debian source package

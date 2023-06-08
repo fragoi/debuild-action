@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
-eval $(ssh-agent -s)
+if [ -n "$INPUT_PPA" ]; then
+  add-apt-repository "$INPUT_PPA"
+fi
 
-exec "$@"
+build.sh
