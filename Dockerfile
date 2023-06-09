@@ -1,14 +1,4 @@
-FROM ubuntu:20.04
-
-COPY apt_conf_http /etc/apt/apt.conf.d/
-
-RUN export DEBIAN_FRONTEND=noninteractive \
-    && apt-get update \
-    && apt-get install -y \
-        build-essential \
-        devscripts \
-        software-properties-common \
-    && rm -rf /var/lib/apt
+FROM ghcr.io/fragoi/debuild:20.7
 
 COPY bin/* /usr/local/bin/
 

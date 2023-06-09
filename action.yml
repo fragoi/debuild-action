@@ -1,4 +1,4 @@
-name: Debuild
+name: Debuild Source
 description: Build a debian source package
 
 inputs:
