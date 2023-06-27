@@ -1,4 +1,4 @@
-FROM ghcr.io/fragoi/debuild:20.9
+FROM ghcr.io/fragoi/debuild:20.10
 
 COPY bin/* /usr/local/bin/
 
