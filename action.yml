@@ -12,4 +12,5 @@ inputs:
 runs:
   using: docker
   image: Dockerfile
-  args: ${{ inputs.options }}
+  args:
+    - ${{ inputs.options }}
