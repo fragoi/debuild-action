@@ -5,7 +5,11 @@ inputs:
   ppa:
     description: PPA to use for build
     required: false
+  options:
+    description: Additional options for debuild
+    required: false
 
 runs:
   using: docker
   image: Dockerfile
+  args: ${{ inputs.options }}
