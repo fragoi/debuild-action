@@ -1,0 +1,45 @@
+name: Build and publish
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - .github/**
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+env:
+  GIT_USER_NAME: Fra Bot
+  GIT_USER_EMAIL: fragoibot@gmail.com
+  V_PATCH: 1
+
+jobs:
+
+  release:
+    runs-on: ubuntu-latest
+    env:
+      NEW_VERSION:
+    steps:
+      - uses: actions/checkout@v6
+      - uses: fragoi/bash-actions@main
+
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          createRelease
+
+      - name: Export version
+        run: |
+          exportSharedVars NEW_VERSION
+
+      - name: Build and publish image
+        if: ${{ env.NEW_VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          dockerBuildAndPublish fragoi/debuild-action ${NEW_VERSION}
