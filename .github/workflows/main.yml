@@ -1,4 +1,4 @@
-name: Build and publish
+name: Create release
 
 on:
   push:
@@ -6,21 +6,20 @@ on:
       - main
     paths-ignore:
       - .github/**
-  workflow_dispatch:
 
 permissions:
   contents: write
-  packages: write
 
 env:
   GIT_USER_NAME: Fra Bot
   GIT_USER_EMAIL: fragoibot@gmail.com
-  V_PATCH: 1
 
 jobs:
 
   release:
     runs-on: ubuntu-latest
+    outputs:
+      major_branch: ${{ steps.majorBranch.outputs.branch }}
     env:
       NEW_VERSION:
     steps:
@@ -37,9 +36,23 @@ jobs:
         run: |
           exportSharedVars NEW_VERSION
 
-      - name: Build and publish image
+      - name: Ensure branch
         if: ${{ env.NEW_VERSION }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: majorBranch
         run: |
-          dockerBuildAndPublish fragoi/debuild-action ${NEW_VERSION}
+          branch=v${NEW_VERSION%%.*}
+          ensureBranch $branch
+          output branch=$branch
+
+  merge-to-major:
+    needs: [release]
+    runs-on: ubuntu-latest
+    if: ${{ needs.release.outputs.major_branch }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.release.outputs.major_branch }}
+      - uses: fragoi/bash-actions@main
+      - name: Update major branch
+        run: |
+          updateBranch main
