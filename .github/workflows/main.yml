@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - v[0-9]+
+      - v[0-9]*
     paths-ignore:
       - .github/**
 
@@ -14,6 +14,8 @@ permissions:
 env:
   GIT_USER_NAME: Fra Bot
   GIT_USER_EMAIL: fragoibot@gmail.com
+  V_MAJOR: 1
+  V_MINOR: 0
 
 jobs:
 
@@ -41,12 +43,12 @@ jobs:
         if: ${{ env.NEW_VERSION }}
         id: majorBranch
         run: |
-          branch=v${NEW_VERSION%%.*}
+          branch=v${NEW_VERSION%.*}
           ensureBranch $branch
           output branch=$branch
 
   merge-to-major:
-    needs: [release]
+    needs: release
     runs-on: ubuntu-latest
     if: ${{ needs.release.outputs.major_branch && github.ref_name == 'main' }}
     steps:
